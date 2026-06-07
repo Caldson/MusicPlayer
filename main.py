@@ -13,6 +13,12 @@ except:
 
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(u'com.example.musicplayer')
 
+mutex = ctypes.windll.kernel32.CreateMutexW(None, False, u'MusicPlayerSingletonMutex')
+last_error = ctypes.windll.kernel32.GetLastError()
+if last_error == 183:
+    messagebox.showinfo("提示", "音乐播放器已在后台运行")
+    exit(0)
+
 pygame.mixer.init()
 
 player=tk.Tk()
